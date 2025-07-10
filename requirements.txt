@@ -2,3 +2,4 @@ dj-database-url
 gunicorn
 django-widget-tweaks
 djangorestframework
+psycopg2-binary
