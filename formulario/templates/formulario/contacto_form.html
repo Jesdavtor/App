@@ -1,32 +1,47 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
-{% block title %}Formulario de Contacto{% endblock %}
+{% block title %}Contáctanos{% endblock %}
 {% block content %}
-<div class="col-12 col-md-8 col-lg-5 mx-auto">
-    <div class="card shadow-lg border-0 rounded-4 p-4">
-        <h2 class="mb-4 text-center fw-bold text-primary">Contáctanos</h2>
-        <form method="post" autocomplete="off">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_nombre" class="form-label">Nombre</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-person"></i></span>
-                    {{ form.nombre|add_class:'form-control'|attr:'placeholder:Tu nombre completo' }}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);">
+    <div class="col-12 col-md-8 col-lg-5 mx-auto">
+        <div class="card shadow-lg border-0 rounded-4 p-4">
+            <h2 class="mb-4 text-center fw-bold text-primary">Contáctanos</h2>
+            <form method="post" autocomplete="off">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        {{ form.nombre }}
+                    </div>
+                    {% if form.nombre.errors %}
+                        <div class="text-danger small">{{ form.nombre.errors.0 }}</div>
+                    {% endif %}
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="id_email" class="form-label">Correo electrónico</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    {{ form.email|add_class:'form-control'|attr:'placeholder:tu@email.com' }}
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Correo electrónico</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        {{ form.email }}
+                    </div>
+                    {% if form.email.errors %}
+                        <div class="text-danger small">{{ form.email.errors.0 }}</div>
+                    {% endif %}
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="id_mensaje" class="form-label">Mensaje</label>
-                {{ form.mensaje|add_class:'form-control'|attr:'placeholder:Escribe tu mensaje aquí' }}
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Enviar mensaje</button>
-        </form>
+                <div class="mb-3">
+                    <label for="id_mensaje" class="form-label">Mensaje</label>
+                    {{ form.mensaje }}
+                    {% if form.mensaje.errors %}
+                        <div class="text-danger small">{{ form.mensaje.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Enviar mensaje</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

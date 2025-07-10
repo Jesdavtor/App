@@ -1,10 +1,11 @@
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from .models import Contacto
+from .forms import ContactoForm
 
 class ContactoCreateView(CreateView):
     model = Contacto
-    fields = ['nombre', 'email', 'mensaje']
+    form_class = ContactoForm
     template_name = 'formulario/contacto_form.html'
     success_url = reverse_lazy('contacto_exito')
 
