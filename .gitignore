@@ -1,0 +1,33 @@
+# Entorno virtual de Python
+venv/
+env/
+ENV/
+.venv/
+
+# Archivos de base de datos locales
+db.sqlite3
+
+# Archivos de configuración sensibles
+.env
+
+# Archivos de caché y temporales
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Archivos estáticos generados
+staticfiles/
+static/
+media/
+
+# Archivos de migraciones compilados
+*/migrations/__pycache__/
+*.sqlite3
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace 
