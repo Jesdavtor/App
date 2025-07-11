@@ -25,9 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure--v19cr+lel@g-o=$78wp&&0%t$ndx%5$p#)60s(cvw+jflri=1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# Forzar DEBUG=True en desarrollo local
+if os.environ.get('RENDER', '') == 'True':
+    DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+if os.environ.get('RENDER', '') == 'True':
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -60,7 +67,7 @@ ROOT_URLCONF = 'fa_ma_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'formulario', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
