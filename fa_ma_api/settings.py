@@ -33,8 +33,10 @@ else:
 
 if os.environ.get('RENDER', '') == 'True':
     ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+    if 'app-fjt6.onrender.com' not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append('app-fjt6.onrender.com')
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'app-fjt6.onrender.com']
 
 
 # Application definition
