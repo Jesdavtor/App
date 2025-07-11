@@ -1,6 +1,11 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 def home(request):
+    # Redirigir a la página principal del frontend
+    return redirect('https://app-fjt6.onrender.com/index.html')
+    
+    # Código de respaldo si la redirección falla
     html = '''
     <!DOCTYPE html>
     <html lang="es">
@@ -15,6 +20,8 @@ def home(request):
             <h1 class="text-3xl font-bold text-blue-800 mb-4">Bienvenido a <span class="text-blue-600">JDApp</span></h1>
             <p class="text-gray-700 mb-8">Esta es la página principal del sistema de gestión.<br>Accede al formulario para comenzar.</p>
             <a href="/formulario/" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">Ir al Formulario</a>
+            <br><br>
+            <a href="https://app-fjt6.onrender.com/index.html" class="inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition">Ir al Panel Principal</a>
         </div>
     </body>
     </html>
