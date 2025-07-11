@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: jdapp-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn JDApp.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4 

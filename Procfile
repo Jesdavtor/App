@@ -1,1 +1,1 @@
-web: gunicorn JDApp.wsgi:application
+web: bash start.sh
