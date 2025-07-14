@@ -7,7 +7,7 @@ def home(request):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>JDApp - Sistema de Gestión</title>
+        <title>JDApp</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,7 +16,6 @@ def home(request):
         <div class="bg-white rounded-xl shadow-2xl p-8 max-w-lg w-full text-center">
             <div class="mb-6">
                 <h1 class="text-4xl font-bold text-blue-800 mb-2">JDApp</h1>
-                <p class="text-blue-600 font-semibold">Sistema de Gestión de Mantenimiento</p>
             </div>
             
             <p class="text-gray-700 mb-8 text-lg">Bienvenido al panel de administración. Selecciona una opción para comenzar:</p>
@@ -37,12 +36,8 @@ def home(request):
                     Documentación API
                 </a>
             </div>
-            
-            <div class="mt-8 pt-6 border-t border-gray-200">
-                <p class="text-sm text-gray-500">MP-Web 10 Pro - Sistema de Gestión</p>
-            </div>
         </div>
     </body>
     </html>
     '''
-    return HttpResponse(html) 
+    return HttpResponse(html)
