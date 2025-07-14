@@ -3,159 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1E40AF"> <!-- Color por defecto para la barra de estado del navegador -->
-    <title>Panel de Gestión de Mantenimiento - MP-Web 10 Pro</title>
-    <style> .page-content { display: none !important; } .page-content.show-page { display: block !important; } </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>JDApp - Bienvenida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="styles.css">
     <style>
-      @media (min-width: 768px) {
-        .dashboard-charts {
-          display: flex;
-          flex-direction: row;
-          gap: 1rem;
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .dashboard-panel {
-          min-width: 0;
-          flex-basis: 0;
-          flex-grow: 1;
-          max-width: 100%;
+        .welcome-container {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(30, 64, 175, 0.15);
+            padding: 2.5rem 2rem 1.5rem 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
         }
-      }
+        .welcome-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 0.2em;
+        }
+        .welcome-message {
+            font-size: 1.08rem;
+            color: #333;
+            margin-bottom: 2em;
+        }
+        .welcome-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.85em 0;
+            margin-bottom: 1em;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.07);
+            text-decoration: none;
+        }
+        .btn-contacto {
+            background: #2563eb;
+            color: #fff;
+        }
+        .btn-contacto:hover {
+            background: #1e40af;
+        }
+        .btn-admin {
+            background: #22c55e;
+            color: #fff;
+        }
+        .btn-admin:hover {
+            background: #16a34a;
+        }
+        .btn-api {
+            background: #a21caf;
+            color: #fff;
+        }
+        .btn-api:hover {
+            background: #7c1d6f;
+        }
+        .welcome-btn i {
+            margin-right: 0.7em;
+            font-size: 1.1em;
+        }
+        .welcome-footer {
+            margin-top: 1.5em;
+            color: #888;
+            font-size: 0.95em;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1em;
+        }
     </style>
 </head>
-<body class="text-gray-800 h-full min-h-0">
-
-    <div id="app-container" class="flex flex-col h-screen min-h-0 overflow-hidden">
-        <header class="ribbon flex justify-between items-center px-4 py-2 bg-blue-800 text-white shadow-md flex-shrink-0">
-            <button id="menu-toggle" class="md:hidden p-2 text-gray-200">
-                <i class="fa-solid fa-bars fa-lg"></i>
-            </button>
-            <div id="ribbon-buttons" class="flex items-center overflow-x-auto space-x-2"></div>
-            <div class="flex items-center space-x-4">
-                <span id="user-id-display" class="font-semibold">Usuario: Cargando...</span>
-                <div class="relative">
-                    <button id="user-menu-button" class="flex items-center space-x-2 p-2 hover:bg-blue-700 rounded-full transition-colors">
-                        <i class="fa-solid fa-user-circle text-lg"></i>
-                        <i class="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    <div id="user-menu-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
-                        <a href="#" data-action="show-user-profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            <i class="fa-solid fa-user mr-2"></i>Mi Perfil
-                        </a>
-                        <a href="#" data-action="show-user-settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            <i class="fa-solid fa-cog mr-2"></i>Configuración
-                        </a>
-                        <!-- Switch de tema -->
-                        <div class="flex items-center px-4 py-2">
-                            <i class="fa-solid fa-sun text-yellow-400 mr-2"></i>
-                            <span class="text-sm text-gray-700 mr-2">Tema oscuro</span>
-                            <label class="inline-flex relative items-center cursor-pointer ml-auto">
-                                <input type="checkbox" id="theme-switch" class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:bg-blue-600 transition"></div>
-                                <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></span>
-                            </label>
-                            <i class="fa-solid fa-moon text-blue-600 ml-2"></i>
-                        </div>
-                        <div class="border-t border-gray-100 my-1"></div> 
-                        <a href="#" data-action="logout-user" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                            <i class="fa-solid fa-sign-out-alt mr-2"></i>Cerrar Sesión
-                        </a>
-                    </div>
-                </div>
-                <button class="p-2 hover:bg-blue-700 rounded-full transition-colors" title="Ayuda">
-                    <i class="fa-solid fa-question-circle"></i>
-                </button>
-            </div>
-        </header>
-
-        <div class="flex flex-1 overflow-hidden h-full min-h-0">
-            <aside id="sidebar" class="sidebar w-48 flex-col absolute md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:flex z-30 bg-blue-900 text-white shadow-lg transition-all duration-300 h-full min-h-0 overflow-y-auto">
-                <div class="p-4 flex flex-col items-center border-b border-white/20">
-                    <div style="height: 48px;"></div>
-                    <span class="font-bold text-base tracking-wide">MP-Web 10 Pro</span>
-                </div>
-                <nav class="flex-grow pt-2">
-                    <!-- Navegación Principal -->
-                    <div class="px-3 py-1">
-                        <h3 class="text-[10px] font-semibold text-blue-200 uppercase tracking-wider">Navegación</h3>
-                    </div>
-                    <a href="#landing" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-home fa-fw w-6 text-center"></i> <span class="ml-2">Inicio</span></a>
-                    <a href="#dashboard" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-tachometer-alt fa-fw w-6 text-center"></i> <span class="ml-2">Dashboard</span></a>
-                    
-                    <!-- Gestión de Mantenimiento -->
-                    <div class="px-3 py-1 mt-2">
-                        <h3 class="text-[10px] font-semibold text-blue-200 uppercase tracking-wider">Mantenimiento</h3>
-                    </div>
-                    <a href="#work-requests" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-bullhorn fa-fw w-6 text-center"></i> <span class="ml-2">Solicitudes de Trabajo</span></a>
-                    <a href="#work-orders" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-clipboard-list fa-fw w-6 text-center"></i> <span class="ml-2">Órdenes de Trabajo</span></a>
-                    <a href="#preventive" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-calendar-alt fa-fw w-6 text-center"></i> <span class="ml-2">Mantenimiento Prev.</span></a>
-                    <a href="#planning" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-tasks fa-fw w-6 text-center"></i> <span class="ml-2">Planificación</span></a>
-                    
-                    <!-- Activos e Inventario -->
-                    <div class="px-3 py-1 mt-2">
-                        <h3 class="text-[10px] font-semibold text-blue-200 uppercase tracking-wider">Activos</h3>
-                    </div>
-                    <a href="#assets" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-box-open fa-fw w-6 text-center"></i> <span class="ml-2">Activos y Equipos</span></a>
-                    <a href="#inventory" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-dolly fa-fw w-6 text-center"></i> <span class="ml-2">Inventario y Repuestos</span></a>
-                    
-                    <!-- Herramientas -->
-                    <div class="px-3 py-1 mt-2">
-                        <h3 class="text-[10px] font-semibold text-blue-200 uppercase tracking-wider">Herramientas</h3>
-                    </div>
-                    <a href="#calendar" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-calendar-days fa-fw w-6 text-center"></i> <span class="ml-2">Calendario</span></a>
-                    <a href="#suppliers" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-truck fa-fw w-6 text-center"></i> <span class="ml-2">Proveedores</span></a>
-                    <a href="#reports" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-chart-pie fa-fw w-6 text-center"></i> <span class="ml-2">Reportes</span></a>
-                    
-                    <!-- Administración -->
-                    <div class="px-3 py-1 mt-2">
-                        <h3 class="text-[10px] font-semibold text-blue-200 uppercase tracking-wider">Administración</h3>
-                    </div>
-                    <a href="#settings" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-cog fa-fw w-6 text-center"></i> <span class="ml-2">Configuración</span></a>
-                    <a href="#users" class="nav-link flex items-center px-3 py-2 rounded-md transition duration-200 hover:bg-blue-700 text-xs"><i class="fa-solid fa-users fa-fw w-6 text-center"></i> <span class="ml-2">Usuarios</span></a>
-                </nav>
-            </aside>
-
-            <div class="content-area flex flex-1 flex-col overflow-hidden min-h-0 h-full">
-                <div id="breadcrumbs" class="px-4 py-2 bg-white border-b border-gray-200 flex-shrink-0 min-h-0">
-                    <!-- Breadcrumbs se insertarán aquí dinámicamente -->
-                </div>
-                <main id="main-content" class="flex-1 min-h-0 h-full flex flex-col overflow-y-auto overflow-x-hidden p-1 md:p-3">
-                    <div id="loading-indicator" class="p-10 text-center">Cargando datos...</div>
-                    <div id="landing-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="dashboard-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="work-requests-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="work-orders-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="assets-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="preventive-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="planning-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="inventory-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="calendar-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="suppliers-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="reports-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="settings-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                    <div id="users-content" class="page-content h-full min-h-0 flex-1 hidden"></div>
-                </main>
-                
-                <footer class="status-bar flex items-center justify-between px-3 py-0.5 text-xs text-gray-600 flex-shrink-0 min-h-0">
-                    <div>Usuario: <span id="user-id-footer" class="font-semibold">Cargando...</span></div>
-                    <div id="current-time"></div>
-                </footer>
-            </div>
+<body>
+    <div class="welcome-container">
+        <div class="welcome-title">JDApp</div>
+        <div class="welcome-message">
+            Bienvenido al panel de administración. Selecciona una opción para comenzar:
+        </div>
+        <a href="/formulario/" class="welcome-btn btn-contacto"><i class="fa-solid fa-clipboard"></i>Formulario de Contacto</a>
+        <a href="/admin/" class="welcome-btn btn-admin"><i class="fa-solid fa-gear"></i>Panel de Administración</a>
+        <a href="/api/docs/" class="welcome-btn btn-api"><i class="fa-solid fa-book"></i>Documentación API</a>
+        <div class="welcome-footer">
+            MP-Web 10 Pro - Sistema de Gestión
         </div>
     </div>
-
-    <div id="confirmation-modal" class="modal-overlay fixed inset-0 z-50 hidden flex items-center justify-center"></div>
-    <div id="notification-toast" class="fixed top-5 right-5 z-50 rounded-lg border-l-4 px-6 py-4 text-white shadow-xl max-w-sm transform transition-all duration-300 opacity-0 transform -translate-y-12"></div>
-
-   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-    
-    <script type="module" src="js/main.js"></script>
 </body>
 </html>
